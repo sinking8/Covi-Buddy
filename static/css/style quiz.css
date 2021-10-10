@@ -1,0 +1,229 @@
+@import url(https://fonts.googleapis.com/css?family=Abril+Fatface);
+@import url(https://fonts.googleapis.com/css?family=Roboto:500);
+html,
+body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  color: rgb(255, 255, 255);
+  font-family: "Roboto", sans-serif;
+  font-size: 16px;
+  line-height: 1em;
+  background-color: black;
+}
+
+#slides {
+  position: absolute;
+  top: 17%;
+  left: 10%;
+  right: 48%;
+  bottom: 17%;
+  overflow: hidden;
+}
+#slides ul {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+}
+#slides ul li {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+#slides ul li:nth-child(1) {
+  background-color: #131313;
+}
+#slides ul li:nth-child(2) {
+  background-color: #262626;
+}
+#slides ul li:nth-child(3) {
+  background-color: #393939;
+}
+#slides ul li:nth-child(4) {
+  background-color: #262626;
+}
+#slides ul li:nth-child(5) {
+  background-color: #131313;
+}
+
+ul#steps {
+  position: absolute;
+  top: 50%;
+  left: 20%;
+  height: 110px;
+  margin-top: -55px;
+}
+ul#steps li {
+  position: relative;
+  height: 100%;
+  color: #999;
+  font-family: "Abril Fatface", serif;
+  -webkit-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+  -webkit-transition: color 666ms cubic-bezier(0.666, 0, 0.333, 1),
+    font-size 666ms cubic-bezier(0.666, 0, 0.333, 1);
+  transition: color 666ms cubic-bezier(0.666, 0, 0.333, 1),
+    font-size 666ms cubic-bezier(0.666, 0, 0.333, 1);
+}
+ul#steps li.active {
+  color: #2d1ad6;
+  font-size: 96px;
+}
+
+.page-wrapper {
+  width: 100%;
+  height: 100%;
+}
+
+.blur-it {
+  -webkit-filter: blur(4px);
+  filter: blur(4px);
+}
+
+a.btn {
+  width: 160px;
+  padding: 20px 0px;
+  position: fixed;
+  bottom: 85%;
+  left: 93%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  font-family: "Montserrat", Arial, Helvetica, sans-serif;
+  font-weight: 700;
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+  color: #fff;
+  border-radius: 15px;
+  background: #2d1ad6;
+}
+
+.modal-wrapper {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: rgba(0, 10, 10, 0.8);
+  visibility: hidden;
+  opacity: 0;
+  -webkit-transition: all 0.25s ease-in-out;
+  transition: all 0.25s ease-in-out;
+}
+
+.modal-wrapper.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal {
+  width: 600px;
+  height: 400px;
+  display: block;
+  margin: 50% 0 0 -300px;
+  position: relative;
+  top: 50%;
+  left: 50%;
+  background: #fff;
+  opacity: 0;
+  -webkit-transition: all 0.5s ease-in-out;
+  transition: all 0.5s ease-in-out;
+}
+
+.modal-wrapper.open .modal {
+  margin-top: -200px;
+  opacity: 1;
+}
+
+.head {
+  width: 90%;
+  height: 32px;
+  padding: 12px 30px;
+  overflow: hidden;
+  background: #2d1ad6;
+}
+
+.btn-close {
+  font-size: 28px;
+  display: block;
+  float: right;
+  color: #fff;
+}
+
+.content {
+  padding: 10%;
+}
+
+.good-job {
+  text-align: center;
+  font-family: "Montserrat", Arial, Helvetica, sans-serif;
+  font-size: 10px;
+  color: #090a0a;
+}
+
+.good-job h1 {
+  font-size: 45px;
+}
+
+#titles {
+  position: absolute;
+  top: 50%;
+  left: 40%;
+  width: 60%;
+  height: 330px;
+  margin-top: -165px;
+  padding: 110px 0;
+}
+#titles ul {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+}
+#titles li {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  visibility: hidden;
+  opacity: 0;
+  -webkit-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+  -webkit-transition: visibility 0ms linear 666ms,
+    opacity 666ms cubic-bezier(0.666, 0, 0.333, 1);
+  transition: visibility 0ms linear 666ms,
+    opacity 666ms cubic-bezier(0.666, 0, 0.333, 1);
+}
+#titles li.active {
+  visibility: visible;
+  opacity: 1;
+  -webkit-transition: visibility 0ms linear,
+    opacity 666ms cubic-bezier(0.666, 0, 0.333, 1);
+  transition: visibility 0ms linear,
+    opacity 666ms cubic-bezier(0.666, 0, 0.333, 1);
+}
+#titles li h2 {
+  height: 110px;
+  font-family: "Abril Fatface", serif;
+  font-size: 35px;
+  display: block;
+}
+#titles li p {
+  height: 110px;
+  color: #999;
+}
+
+.roller {
+  -webkit-transform: translate3d(0, 0%, 0);
+  transform: translate3d(0, 0%, 0);
+  -webkit-transition: -webkit-transform 666ms cubic-bezier(0.666, 0, 0.333, 1);
+  transition: -webkit-transform 666ms cubic-bezier(0.666, 0, 0.333, 1);
+  transition: transform 666ms cubic-bezier(0.666, 0, 0.333, 1);
+  transition: transform 666ms cubic-bezier(0.666, 0, 0.333, 1),
+    -webkit-transform 666ms cubic-bezier(0.666, 0, 0.333, 1);
+}

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+
+<link rel="stylesheet" href="../../static/css/bootstrap.min.css" />
+
+<style>
+  @import url(https://fonts.googleapis.com/css?family=Abril+Fatface);
+  @import url(https://fonts.googleapis.com/css?family=Roboto:500);
+
+  body {
+    margin-top: 50px;
+    font-family: "Roboto", sans-serif;
+    background-image: url("../../static/images/6.png");
+    background-position: relative;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+
+  h1 {
+    font-size: 40px;
+    letter-spacing: 2px;
+    margin-left: 490px;
+    color: white;
+  }
+
+  h2,
+  p {
+    letter-spacing: 2px;
+    color: red;
+  }
+
+  #video {
+    border: 5px solid black;
+    width: 500px;
+    height: 375px;
+  }
+
+  #photo {
+    border: 5px solid black;
+    width: 500px;
+    height: 375px;
+  }
+
+  .output {
+    width: 500px;
+    display: inline;
+  }
+
+  .contentarea {
+    font-size: 16px;
+    font-family: Arial;
+    text-align: center;
+  }
+
+  #dbtn {
+    padding: 10px 40px;
+    border-radius: 30px;
+    background-color: black;
+    margin-left: 5px;
+    margin-top: -60px;
+  }
+</style>
+<h1>Covibuddy Mask Detector</h1>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<div class="contentarea">
+  <div class="camera">
+    <img src="{{ url_for('video') }}" width="50%" />
+  </div>
+  <h2>Instructions:</h2>
+  <p>1) Enable web cam access and make sure camera is of good quality.</p>
+  <p>2) Ensure that you are seated in a well lit room.</p>
+  <p>3) Please stay within one feet of the camera to get accurate results.</p>
+  <br /><br />
+  <a
+    class="btn btn-lg btn-danger smoothScroll wow fadeInUp"
+    target="_blank"
+    href="{{url_for('home')}}"
+    id="dbtn"
+    >Home</a
+  >
+</div>
+
+<script>
+  (function () {
+    var width = 320; // We will scale the photo width to this
+    var height = 0; // This will be computed based on the input stream
+
+    var streaming = false;
+
+    var video = null;
+    var canvas = null;
+    var photo = null;
+    var startbutton = null;
+    var data = null;
+
+    function startup() {
+      video = document.getElementById("video");
+      canvas = document.getElementById("canvas");
+      photo = document.getElementById("photo");
+      startbutton = document.getElementById("startbutton");
+
+      navigator.mediaDevices
+        .getUserMedia({
+          video: true,
+          audio: false,
+        })
+        .then(function (stream) {
+          video.srcObject = stream;
+          video.play();
+        })
+        .catch(function (err) {
+          console.log("An error occurred: " + err);
+        });
+
+      video.addEventListener(
+        "canplay",
+        function (ev) {
+          if (!streaming) {
+            height = video.videoHeight / (video.videoWidth / width);
+
+            if (isNaN(height)) {
+              height = width / (4 / 3);
+            }
+
+            video.setAttribute("width", width);
+            video.setAttribute("height", height);
+            canvas.setAttribute("width", width);
+            canvas.setAttribute("height", height);
+            streaming = true;
+          }
+        },
+        false
+      );
+
+      startbutton.addEventListener(
+        "click",
+        function (ev) {
+          takepicture();
+          ev.preventDefault();
+        },
+        false
+      );
+
+      clearphoto();
+    }
+
+    function clearphoto() {
+      var context = canvas.getContext("2d");
+      context.fillStyle = "#AAA";
+      context.fillRect(0, 0, canvas.width, canvas.height);
+
+      data = canvas.toDataURL("image/png");
+      photo.setAttribute("src", data);
+    }
+
+    window.addEventListener("load", startup, false);
+  })();
+</script>
+
+<script src="../../static/js/jquery1.js"></script>
+<script src="../../static/js/smoothscroll.js"></script>

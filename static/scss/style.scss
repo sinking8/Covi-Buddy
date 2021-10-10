@@ -1,0 +1,173 @@
+// Duration
+$duration: 0.5s;
+
+// Font Family
+$body-font: "Roboto";
+
+// Font Weights
+$thin: 100;
+$light: 300;
+$regular: 400;
+$semibold: 500;
+$bold: 700;
+$ultra: 800;
+
+// Base Font
+/* $base-background: #00CC99; */
+$base-background: #D18B49;
+$base-font-family: $body-font, sans-serif;
+$base-font-size: 14px;
+$base-font-weight: $regular;
+$base-line-height: 1.6em;
+
+// Colors
+$black: #000000;
+$dark-gray: rgba($black, 0.8);
+$gray: rgba($black, 0.6);
+$light-gray: rgba($black, 0.4);
+$lighter-gray: rgba($black, 0.2);
+$white: #FFFFFF;
+$accent: #4285F4;
+$primary: #2F313A;
+$secondary: #F4B142;
+
+// Card Settings
+$max-width: 400px;
+$max-height: null;
+$gutters: 24px;
+
+// Elevation
+@mixin elevation($level) {
+  @if $level == 1 {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  }
+
+  @else if $level == 2 {
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  }
+
+  @else if $level == 3 {
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+  }
+
+  @else if $level == 4 {
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+  }
+
+  @else if $level == 5 {
+    box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
+  }
+}
+
+body {
+  background: $base-background;
+  color: $gray;
+  font-family: $base-font-family;
+  font-size: $base-font-size;
+  line-height: $base-line-height;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: $duration ease;
+}
+
+// Button
+.btn {
+  border-radius: 2px;
+  padding: ($gutters / 3) ($gutters / 2);
+  color: #D18B49;
+  font-size: 14px;
+  font-weight: $semibold;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: $duration ease;
+}
+
+// Card
+.card {
+  background: $white;
+  max-width: $max-width;
+  min-height: $max-height;
+  margin: 100px auto;
+  border-radius: 12px;
+  @include elevation(3);
+  box-sizing: border-box;
+  padding: ($gutters * 2);
+  text-align: center;
+}
+
+// Products
+.products {
+  position: relative;
+  overflow: hidden;
+  transition: $duration ease;
+}
+
+// Product
+.product {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  visibility: hidden;
+  transition: $duration ease;
+  
+  &.active {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+// Thumbnail
+.thumbnail {
+  margin: 0 0 ($gutters * 2);
+}
+
+// Title
+.title {
+  margin: 0 0 ($gutters / 2);
+  color: #D18B49;
+  font-size: 24px;
+  transition: $duration ease;
+}
+
+// Description
+.description {
+  margin: 0 0 ($gutters * 2);
+}
+
+// Footer
+.footer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 0 (-$gutters / 2) (-$gutters / 2);
+}
+
+// Ripple
+[ripple] {
+  z-index: 1;
+  position: relative;
+  overflow: hidden;
+
+  .ripple {
+    position: absolute;
+    background: $white;
+    width: 60px;
+    height: 60px;
+    border-radius: 100%;
+    transform: scale(0);
+    animation: ripple 2s;
+  }
+}
+
+@keyframes ripple {
+  0% {
+    transform: scale(0);
+    opacity: 0.2;
+  }
+
+  100% {
+    transform: scale(20);
+    opacity: 0;
+  }
+}

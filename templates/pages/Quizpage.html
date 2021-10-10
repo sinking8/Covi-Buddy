@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Covid-19 Detector Quiz</title>
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css"
+    />
+    <link
+      rel="stylesheet prefetch"
+      href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css"
+    />
+    <link rel="stylesheet" href="../../static/css/style_quiz.css" />
+
+    <style>
+      @import url(https://fonts.googleapis.com/css?family=Abril+Fatface);
+      @import url(https://fonts.googleapis.com/css?family=Roboto:500);
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+      }
+
+      body {
+        color: rgb(255, 255, 255);
+        font-family: "Roboto", sans-serif;
+        font-size: 16px;
+        line-height: 1em;
+        background-color: black;
+      }
+
+      #slides {
+        position: absolute;
+        top: 17%;
+        left: 10%;
+        right: 48%;
+        bottom: 17%;
+        overflow: hidden;
+      }
+      #slides ul {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        width: 100%;
+        height: 100%;
+      }
+      #slides ul li {
+        position: relative;
+        width: 100%;
+        height: 100%;
+      }
+      #slides ul li:nth-child(1) {
+        background-color: #131313;
+      }
+      #slides ul li:nth-child(2) {
+        background-color: #262626;
+      }
+      #slides ul li:nth-child(3) {
+        background-color: #393939;
+      }
+      #slides ul li:nth-child(4) {
+        background-color: #262626;
+      }
+      #slides ul li:nth-child(5) {
+        background-color: #131313;
+      }
+
+      ul#steps {
+        position: absolute;
+        top: 50%;
+        left: 20%;
+        height: 110px;
+        margin-top: -55px;
+      }
+      ul#steps li {
+        position: relative;
+        height: 100%;
+        color: #999;
+        font-family: "Abril Fatface", serif;
+        -webkit-transform: translate3d(0, 0, 0);
+        transform: translate3d(0, 0, 0);
+        -webkit-transition: color 666ms cubic-bezier(0.666, 0, 0.333, 1),
+          font-size 666ms cubic-bezier(0.666, 0, 0.333, 1);
+        transition: color 666ms cubic-bezier(0.666, 0, 0.333, 1),
+          font-size 666ms cubic-bezier(0.666, 0, 0.333, 1);
+      }
+      ul#steps li.active {
+        color: #2d1ad6;
+        font-size: 96px;
+      }
+
+      .blur-it {
+        -webkit-filter: blur(4px);
+        filter: blur(4px);
+      }
+
+      .button {
+        padding: 15px 25px;
+        font-size: 24px;
+        margin-left: 1360px;
+        margin-top: 10px;
+        text-align: center;
+        cursor: pointer;
+        outline: none;
+        color: #fff;
+        background-color: blue;
+        border: none;
+        border-radius: 15px;
+        box-shadow: 0 9px #999;
+      }
+
+      .button:hover {
+        background-color: rgb(38, 166, 209);
+      }
+
+      .button:active {
+        background-color: rgb(38, 166, 209);
+        box-shadow: 0 5px #666;
+        transform: translateY(4px);
+      }
+
+      .modal {
+        display: none; /* Hidden by default */
+        position: absolute; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0, 0, 0); /* Fallback color */
+        background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+      }
+
+      /* The Close Button */
+      .close {
+        color: black;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+      }
+
+      .close:hover,
+      .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+      }
+
+      .modal-header {
+        padding: 16px 16px;
+        background-color: blue;
+        color: white;
+      }
+
+      /* Modal Body */
+      .modal-body {
+        padding: 50px 20px;
+      }
+
+      /* Modal Footer */
+      .modal-footer {
+        padding: 16px 16px;
+        background-color: blue;
+        color: white;
+      }
+
+      /* Modal Content */
+      .modal-content {
+        position: relative;
+        font-size: 30px;
+        color: black;
+        background-color: #fefefe;
+        margin: auto;
+        padding: 0;
+        border: 1px solid #888;
+        width: 80%;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
+          0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        animation-name: animatetop;
+        animation-duration: 0.4s;
+      }
+
+      /* Add Animation */
+      @keyframes animatetop {
+        from {
+          top: -300px;
+          opacity: 0;
+        }
+        to {
+          top: 0;
+          opacity: 1;
+        }
+      }
+
+      #titles {
+        position: absolute;
+        top: 50%;
+        left: 40%;
+        width: 60%;
+        height: 330px;
+        margin-top: -165px;
+        padding: 110px 0;
+      }
+      #titles ul {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        width: 100%;
+        height: 100%;
+      }
+      #titles li {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        visibility: hidden;
+        opacity: 0;
+        -webkit-transform: translate3d(0, 0, 0);
+        transform: translate3d(0, 0, 0);
+        -webkit-transition: visibility 0ms linear 666ms,
+          opacity 666ms cubic-bezier(0.666, 0, 0.333, 1);
+        transition: visibility 0ms linear 666ms,
+          opacity 666ms cubic-bezier(0.666, 0, 0.333, 1);
+      }
+      #titles li.active {
+        visibility: visible;
+        opacity: 1;
+        -webkit-transition: visibility 0ms linear,
+          opacity 666ms cubic-bezier(0.666, 0, 0.333, 1);
+        transition: visibility 0ms linear,
+          opacity 666ms cubic-bezier(0.666, 0, 0.333, 1);
+      }
+      #titles li h2 {
+        height: 110px;
+        font-family: "Abril Fatface", serif;
+        font-size: 35px;
+        display: block;
+      }
+      #titles li p {
+        height: 110px;
+        color: #999;
+      }
+
+      .roller {
+        -webkit-transform: translate3d(0, 0%, 0);
+        transform: translate3d(0, 0%, 0);
+        -webkit-transition: -webkit-transform 666ms
+          cubic-bezier(0.666, 0, 0.333, 1);
+        transition: -webkit-transform 666ms cubic-bezier(0.666, 0, 0.333, 1);
+        transition: transform 666ms cubic-bezier(0.666, 0, 0.333, 1);
+        transition: transform 666ms cubic-bezier(0.666, 0, 0.333, 1),
+          -webkit-transform 666ms cubic-bezier(0.666, 0, 0.333, 1);
+      }
+    </style>
+  </head>
+
+  <body>
+    <script
+      src="https://code.jquery.com/jquery-3.5.1.js"
+      integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+      crossorigin="anonymous"
+    ></script>
+
+    <div id="slides">
+      <ul class="roller">
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <l1></l1>
+      </ul>
+    </div>
+    <ul id="steps" class="roller">
+      <li>01</li>
+      <li>02</li>
+      <li>03</li>
+      <li>04</li>
+      <li>05</li>
+    </ul>
+    <form id="form1" method="post">
+      <div id="titles">
+        <ul class="roller">
+          <li>
+            <h2>Covid Detector Quiz</h2>
+            <h2>Determine whether you are covid symptomatic or not</h2>
+            <p>Use the up and down arrows to navigate</p>
+          </li>
+          <!-- Gender Input  -->
+          <li>
+            <h2>Q1)</h2>
+            <h2>What is your Gender?</h2>
+            <input type="radio" id="gender1" name="gender1" value="1" /><label
+              for="Male"
+              >Male</label
+            >
+            <input type="radio" id="gender2" name="gender2" value="1" /><label
+              for="Female"
+              >Female</label
+            >
+          </li>
+          <!-- Age Input -->
+          <li>
+            <h2>Q2)</h2>
+            <h2>What is your age group?</h2>
+            <input type="radio" id="age_grp1" name="age grp" value="1" /><label
+              for="0-9"
+              >0-9</label
+            >
+            <input
+              type="radio"
+              id="age_grp2"
+              name="age grp"
+              value="10-19"
+            /><label for="10-19">10-19</label>
+            <input
+              type="radio"
+              id="age_grp3"
+              name="age grp"
+              value="20-24"
+            /><label for="20-24">20-24</label>
+            <input
+              type="radio"
+              id="age_grp4"
+              name="age grp"
+              value="25-59"
+            /><label for="25-59">25-59</label>
+            <input
+              type="radio"
+              id="age_grp5"
+              name="age grp"
+              value="60+"
+            /><label for="60+">60+</label>
+          </li>
+
+          <!-- Symptoms Input -->
+          <li>
+            <h2>Q3)</h2>
+            <h2>Please select all the applicable symptoms</h2>
+            <input
+              type="checkbox"
+              id="symptoms1"
+              name="symptoms"
+              value="1"
+            /><label for="fever">Fever</label>
+            <input
+              type="checkbox"
+              id="symptoms2"
+              name="symptoms"
+              value="1"
+            /><label for="tiredness">tiredness</label>
+            <input
+              type="checkbox"
+              id="symptoms3"
+              name="symptoms"
+              value="1"
+            /><label for="Sore-throat">Sore-throat</label>
+            <input
+              type="checkbox"
+              id="symptoms4"
+              name="symptoms"
+              value="1"
+            /><label for="BreathingD">Breathing Difficulty</label>
+            <input
+              type="checkbox"
+              id="symptoms5"
+              name="symptoms"
+              value="1"
+            /><label for="NasalC">Nasal Congestion</label><br />
+            <input
+              type="checkbox"
+              id="symptoms6"
+              name="symptoms"
+              value="1"
+            /><label for="RunnyNose">Runny Nose</label>
+            <input
+              type="checkbox"
+              id="symptoms7"
+              name="symptoms"
+              value="1"
+            /><label for="Diarrhea">Diarrhea</label>
+            <input
+              type="checkbox"
+              id="symptoms8"
+              name="symptoms"
+              value="1"
+            /><label for="body pains">Body pains</label>
+            <input
+              type="checkbox"
+              id="symptoms9"
+              name="symptoms"
+              value="1"
+            /><label for="Drycough">Dry Cough</label>
+            <input
+              type="checkbox"
+              id="symptoms10"
+              name="symptoms"
+              value="1"
+            /><label for="None">None</label>
+          </li>
+
+          <!-- Contact Input -->
+          <li>
+            <h2>Q4)</h2>
+            <h2>Were you in contact with a covid positive person?</h2>
+            <input type="radio" id="contact1" name="contact" value="1" /><label
+              for="Yes"
+              >Yes</label
+            >
+            <input type="radio" id="contact2" name="contact" value="1" /><label
+              for="No"
+              >No</label
+            >
+            <input type="radio" id="contact3" name="contact" value="1" /><label
+              for="Not Sure"
+              >Not Sure</label
+            >
+          </li>
+        </ul>
+      </div>
+      <div class="page-wrapper">
+        <button class="button" id="myBtn" form="form1" type="submit">
+          Submit
+        </button>
+        <div id="myModal" class="modal">
+          <!-- Modal content -->
+          <div class="modal-content">
+            <div class="modal-header">
+              <span class="close">&times;</span>
+              <h2>Result:</h2>
+            </div>
+            <div class="modal-body">
+              <p id="response_text">You are Mildly positive</p>
+            </div>
+            <div class="modal-footer">
+              <h3>Stay Safe and Take Care!</h3>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <script type="text/javascript">
+      $(document).on("submit", "#form1", function (e) {
+        e.preventDefault();
+        $.ajax({
+          type: "POST",
+          url: "/quiz_sol",
+          data: {
+            gender_male: $("#gender1:checked").val() || 0,
+            gender_female: $("#gender2:checked").val() || 0,
+            age_0_9: $("age_grp1:checked").val() || 0,
+            age_10_19: $("age_grp2:checked").val() || 0,
+            age_20_24: $("age_grp3:checked").val() || 0,
+            age_25_59: $("age_grp4:checked").val() || 0,
+            age_60: $("age_grp5:checked").val() || 0,
+            fever: $("#symptoms1:checked").val() || 0,
+            tiredness: $("#symptoms2:checked").val() || 0,
+            sore_throat: $("#symptoms3:checked").val() || 0,
+            breathing_d: $("#symptoms4:checked").val() || 0,
+            nasal_c: $("#symptoms5:checked").val() || 0,
+            runny_nose: $("#symptoms6:checked").val() || 0,
+            diarrhea: $("#symptoms7:checked").val() || 0,
+            body_pains: $("#symptoms8:checked").val() || 0,
+            dry_cough: $("#symptoms9:checked").val() || 0,
+            none: $("#symptoms10:checked").val() || 0,
+            contact_yes: $("#contact1:checked").val() || 0,
+            contact_no: $("contact2:checked").val() || 0,
+            contact_not_sure: $("contact3:checked").val() || 0,
+          },
+          success: function (response) {
+            let response_json = JSON.parse(response);
+            let response_text = document.getElementById("response_text");
+            response_text.innerHTML = response_json.response;
+            console.log(response_json.response);
+          },
+        });
+      });
+    </script>
+
+    <script>
+      (function () {
+        var Application,
+          Utils,
+          bind = function (fn, me) {
+            return function () {
+              return fn.apply(me, arguments);
+            };
+          };
+
+        window.DEMO = window.DEMO || {};
+
+        Utils = {
+          transform: Modernizr.prefixed("transform")
+            .replace(
+              /([A-Z])/g,
+              (function (_this) {
+                return function (str, m1) {
+                  return "-" + m1.toLowerCase();
+                };
+              })(this)
+            )
+            .replace(/^ms-/, "-ms-"),
+          translate: (function (_this) {
+            return function (x, y) {
+              var tran, vals;
+              tran = Modernizr.csstransforms3d ? "translate3d" : "translate";
+              vals = Modernizr.csstransforms3d
+                ? "(" + x + ", " + y + ", 0)"
+                : "(" + x + ", " + y + ")";
+              return tran + vals;
+            };
+          })(this),
+        };
+
+        Application = (function () {
+          function Application() {
+            this.update = bind(this.update, this);
+            this.next = bind(this.next, this);
+            this.previous = bind(this.previous, this);
+            this.onKeyup = bind(this.onKeyup, this);
+            DEMO.utils = Utils;
+            this.$doc = $(document);
+            this.$roller = $(".roller");
+            this.$step = $("#steps li");
+            this.$title = $("#titles li");
+            this.min = 0;
+            this.max = this.$step.length - 1;
+            this.active_index = 0;
+            this.$step.eq(this.active_index).addClass("active");
+            this.$title.eq(this.active_index).addClass("active");
+            this.observe();
+          }
+
+          Application.prototype.observe = function () {
+            return this.$doc.on("keyup", this.onKeyup);
+          };
+
+          Application.prototype.onKeyup = function (e) {
+            var kc;
+            kc = e.keyCode;
+            if (kc === 38) {
+              e.preventDefault();
+              this.previous();
+            }
+            if (kc === 40) {
+              e.preventDefault();
+              return this.next();
+            }
+          };
+
+          Application.prototype.previous = function () {
+            if (this.active_index > this.min) {
+              this.active_index--;
+              return this.update();
+            }
+          };
+
+          Application.prototype.next = function () {
+            if (this.active_index < this.max) {
+              this.active_index++;
+              return this.update();
+            }
+          };
+
+          Application.prototype.update = function () {
+            var y;
+            y = -(this.active_index * 100);
+            this.$roller.css(
+              DEMO.utils.transform,
+              DEMO.utils.translate(0, y + "%")
+            );
+            this.$step.removeClass("active");
+            this.$title.removeClass("active");
+            this.$step.eq(this.active_index).addClass("active");
+            return this.$title.eq(this.active_index).addClass("active");
+          };
+
+          return Application;
+        })();
+
+        $(function () {
+          return (DEMO.instance = new Application());
+        });
+      }.call(this));
+
+      $(document).ready(function () {
+        $(".trigger").on("click", function () {
+          $(".modal-wrapper").toggleClass("open");
+          $(".page-wrapper").toggleClass("blur-it");
+          return false;
+        });
+      });
+
+      // Get the modal
+      var modal = document.getElementById("myModal");
+
+      // Get the button that opens the modal
+      var btn = document.getElementById("myBtn");
+
+      // Get the <span> element that closes the modal
+      var span = document.getElementsByClassName("close")[0];
+
+      // When the user clicks on the button, open the modal
+      btn.onclick = function () {
+        modal.style.display = "block";
+      };
+
+      // When the user clicks on <span> (x), close the modal
+      span.onclick = function () {
+        modal.style.display = "none";
+      };
+
+      // When the user clicks anywhere outside of the modal, close it
+      window.onclick = function (event) {
+        if (event.target == modal) {
+          modal.style.display = "none";
+        }
+      };
+    </script>
+
+    <script src="../../static/js/index quiz.js"></script>
+  </body>
+</html>
